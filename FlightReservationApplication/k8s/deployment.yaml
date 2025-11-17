@@ -17,10 +17,33 @@ spec:
     spec:
       containers:
       - name: flight-reservation-app
-        image: shubhamkalsait1/flight-reservation-app:latest
+        image: yugajoshi/flight-backend:1.1.0
         imagePullPolicy: Always
         ports:
         - containerPort: 8080
+        env:
+          - name: DB_HOST
+            valueFrom:
+              sectretKeyRef:
+                name: mysecret
+                value: db_host
+          - name: DB_PORT
+            value: "3306"
+          - name: DB_NAME
+            valueFrom:
+              secretKeyRef:
+                name: mysecret
+                value: db_name
+          - name: DB_USER
+            valueFrom:
+              secretKeyRef:
+                name: mysecret
+                value: db_user
+          - name: DB_PASS
+            valueFrom:
+              secretKeyRef:
+                name: mysecret
+                value: db_pass 
         resources:
           requests:
             memory: "512Mi"
